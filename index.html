@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VP Studio — Consultoría y Arquitectura Digital</title>
   <meta name="description" content="VP Studio diseña y desarrolla sitios web, sistemas a medida y automatizaciones para empresas que quieren dar el salto digital.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231D1D1F'/%3E%3Ctext x='32' y='42' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='26' font-weight='700' fill='%23FFFFFF' text-anchor='middle' letter-spacing='-1'%3EVP%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231D1D1F'/%3E%3Crect x='15' y='19' width='34' height='26' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3Ctext x='31' y='39' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='19' font-weight='700' fill='%23ffffff' text-anchor='middle' letter-spacing='-0.5'%3EVP%3C/text%3E%3Ccircle cx='44' cy='24' r='2.6' fill='%2334a465'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
   <!-- ===== Loader ===== -->
   <div class="loader" id="loader" aria-hidden="true">
-    <div class="loader__mark">
-      <span class="loader__letter">V</span><span class="loader__letter">P</span>
+    <div class="loader__inner">
+      <span class="vp-mark vp-mark--loader">
+        <span class="vp-mark__letters">VP</span>
+        <span class="vp-mark__dot"></span>
+      </span>
+      <div class="loader__tag">Consultoría &amp; Arquitectura Digital</div>
     </div>
-    <div class="loader__tag">Consultoría y Arquitectura Digital</div>
   </div>
 
   <!-- ===== Cursor custom (solo desktop) ===== -->
@@ -25,7 +28,10 @@
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#top" class="nav__logo" data-hover>
-        <span class="nav__mark">VP</span>
+        <span class="vp-mark nav__mark">
+          <span class="vp-mark__letters">VP</span>
+          <span class="vp-mark__dot"></span>
+        </span>
         <span class="nav__name">Studio</span>
       </a>
       <nav class="nav__links">
@@ -198,8 +204,8 @@
         <h2 class="cta__title" data-reveal>¿Tenés un proyecto<br>en mente? <span class="cta__accent">Hablemos.</span></h2>
         <p class="cta__sub" data-reveal>Contanos tu idea y te respondemos dentro de las 24 horas con los próximos pasos.</p>
         <div class="cta__actions" data-reveal>
-          <a href="mailto:hola@vpstudio.com" class="btn btn--primary btn--big" data-hover data-magnetic>Escribinos</a>
-          <span class="cta__mail">hola@vpstudio.com</span>
+          <a href="mailto:vpstudio.dev@gmail.com" class="btn btn--primary btn--big" data-hover data-magnetic>Escribinos</a>
+          <span class="cta__mail">vpstudio.dev@gmail.com</span>
         </div>
       </div>
     </section>
@@ -210,7 +216,10 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <span class="nav__mark nav__mark--footer">VP</span>
+        <span class="vp-mark nav__mark nav__mark--footer">
+          <span class="vp-mark__letters">VP</span>
+          <span class="vp-mark__dot"></span>
+        </span>
         <div>
           <div class="footer__name">VP Studio</div>
           <div class="footer__tag">Consultoría y Arquitectura Digital</div>

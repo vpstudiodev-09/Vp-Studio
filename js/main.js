@@ -81,7 +81,9 @@ function intro() {
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  tl.to(".loader__letter", { y: 0, duration: 0.7, stagger: 0.09 })
+  // La marca aparece con un leve zoom, el punto verde "explota" y baja la tagline
+  tl.from(".vp-mark--loader", { scale: 0.86, autoAlpha: 0, duration: 0.7 })
+    .from(".vp-mark--loader .vp-mark__dot", { scale: 0, duration: 0.45, ease: "back.out(3)" }, "-=0.25")
     .to(".loader__tag", { opacity: 1, duration: 0.5 }, "-=0.3")
     .to(loader, {
       yPercent: -100,
