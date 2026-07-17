@@ -35,30 +35,42 @@
    El color del marco y las letras hereda de `color` → se pinta negro o blanco
    según el fondo. El punto siempre verde (acento de marca).
    ========================================================================== */
+/* Caja negra sólida con marco blanco fino y "VP" en blanco (variante icono negro) */
 .vp-mark {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid currentColor;   /* marco fino y constante, como el brand */
-  padding: 0.5em 0.66em;
-  line-height: 1;
+  background: var(--black);
+  padding: 0.3em;
+  border-radius: 3px;
   flex-shrink: 0;
+}
+
+.vp-mark__frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  padding: 0.34em 0.52em;
+  line-height: 1;
 }
 
 .vp-mark__letters {
   font-weight: 700;
   letter-spacing: -0.01em;
   font-size: 1em;
-  color: currentColor;
+  color: #fff;
+  line-height: 1;
 }
 
 .vp-mark__dot {
   position: absolute;
-  top: 0.32em;
-  right: 0.36em;
-  width: 0.15em;
-  height: 0.15em;
+  top: 0.3em;
+  right: 0.32em;
+  width: 0.16em;
+  height: 0.16em;
   border-radius: 50%;
   background: var(--logo-accent);
 }
@@ -115,10 +127,9 @@ a { color: inherit; text-decoration: none; }
   gap: 26px;
 }
 
-/* La marca en el loader: grande y en negro sobre el fondo blanco */
+/* La marca en el loader: grande, sobre el fondo blanco */
 .vp-mark--loader {
-  color: var(--black);
-  font-size: clamp(40px, 7vw, 64px);
+  font-size: clamp(38px, 6.5vw, 58px);
 }
 
 .loader__tag {
@@ -183,8 +194,8 @@ a { color: inherit; text-decoration: none; }
 
 .nav__logo { display: flex; align-items: center; gap: 9px; }
 
-/* Tamaño/color de la marca en el nav (usa el componente .vp-mark) */
-.nav__mark { font-size: 13px; color: var(--black); }
+/* Tamaño de la marca en el nav (usa el componente .vp-mark) */
+.nav__mark { font-size: 13px; }
 
 .nav__name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
 
