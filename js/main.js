@@ -161,14 +161,15 @@ function marquee() {
   const track = document.getElementById("marqueeTrack");
   const group = track.querySelector(".marquee__group");
 
-  // Duplicar el grupo: siempre al menos 2 copias, y las que hagan falta
-  // para que al desplazar un ancho de grupo nunca quede espacio vacío
-  while (
-    track.children.length < 2 ||
-    track.scrollWidth < window.innerWidth + group.offsetWidth
-  ) {
-    track.appendChild(group.cloneNode(true));
+  // Una sola lectura de layout (evita "layout thrashing"): calculamos cuántas
+  // copias hacen falta y las agregamos todas juntas, sin re-medir en el loop.
+  const groupW = group.offsetWidth;
+  const needed = Math.max(2, Math.ceil((window.innerWidth + groupW) / groupW) + 1);
+  const frag = document.createDocumentFragment();
+  for (let i = track.children.length; i < needed; i++) {
+    frag.appendChild(group.cloneNode(true));
   }
+  track.appendChild(frag);
 
   if (reduceMotion) return;
 
@@ -352,18 +353,34 @@ function heroParallax() {
    Init
    -------------------------------------------------------------------------- */
 if (hasGsap) {
+  // --- Arranque inmediato: solo lo esencial para el hero ---
+  // (el scroll suave y la animación de entrada son la prioridad visual)
   smoothScroll();
   anchorLinks();
-  intro();
+  cursor();      // solo agrega listeners, sin costo de render
+  intro();       // animación de entrada del hero
   heroSwap();
-  navBehavior();
-  marquee();
-  reveals();
-  process();
-  cardEffects();
-  magnetic();
-  cursor();
-  heroParallax();
 
-  window.addEventListener("load", () => ScrollTrigger.refresh());
+  // --- Diferido: toda la maquinaria de scroll ---
+  // Se arma DESPUÉS del primer pintado para no competir con la intro.
+  // Como la intro dura ~2,5s, esto queda listo mucho antes de que el
+  // usuario llegue a scrollear.
+  const initScrollStuff = () => {
+    navBehavior();
+    marquee();
+    reveals();
+    process();
+    cardEffects();
+    magnetic();
+    heroParallax();
+    ScrollTrigger.refresh();
+  };
+
+  if (reduceMotion) {
+    initScrollStuff();
+  } else {
+    const startDeferred = () => gsap.delayedCall(0.2, initScrollStuff);
+    if (document.readyState === "complete") startDeferred();
+    else window.addEventListener("load", startDeferred);
+  }
 }

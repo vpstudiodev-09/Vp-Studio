@@ -122,8 +122,8 @@ a { color: inherit; text-decoration: none; }
   top: 0; left: 0; right: 0;
   z-index: 50;
   background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid transparent;
   transition: border-color .3s ease;
 }
@@ -227,8 +227,13 @@ a { color: inherit; text-decoration: none; }
 .hero__orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(64px);
   opacity: 0.5;
+  /* Capa propia de GPU: el parallax mueve la textura ya borrosa
+     en vez de repintar el blur en cada frame (clave para que no trabe). */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero__orb--a {
@@ -353,7 +358,7 @@ a { color: inherit; text-decoration: none; }
   background: var(--white);
 }
 
-.marquee__track { display: flex; width: max-content; }
+.marquee__track { display: flex; width: max-content; will-change: transform; }
 
 .marquee__group {
   display: flex;
