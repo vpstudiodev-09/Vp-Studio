@@ -1,0 +1,16 @@
+# Dependencias (por si más adelante se agrega build/tooling)
+node_modules/
+
+# Config local del editor / entorno de dev
+.claude/
+.vscode/
+.idea/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs y temporales
+*.log
+.cache/

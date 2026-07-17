@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VP Studio — Consultoría y Arquitectura Digital</title>
+  <meta name="description" content="VP Studio diseña y desarrolla sitios web, sistemas a medida y automatizaciones para empresas que quieren dar el salto digital.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231D1D1F'/%3E%3Ctext x='32' y='42' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='26' font-weight='700' fill='%23FFFFFF' text-anchor='middle' letter-spacing='-1'%3EVP%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== Loader ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__mark">
+      <span class="loader__letter">V</span><span class="loader__letter">P</span>
+    </div>
+    <div class="loader__tag">Consultoría y Arquitectura Digital</div>
+  </div>
+
+  <!-- ===== Cursor custom (solo desktop) ===== -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- ===== Nav ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__logo" data-hover>
+        <span class="nav__mark">VP</span>
+        <span class="nav__name">Studio</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#servicios" data-hover>Servicios</a>
+        <a href="#proceso" data-hover>Proceso</a>
+        <a href="#principios" data-hover>Por qué VP</a>
+      </nav>
+      <a href="#contacto" class="nav__cta" data-hover data-magnetic>Hablemos</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__orb hero__orb--a"></div>
+        <div class="hero__orb hero__orb--b"></div>
+      </div>
+      <div class="container hero__content">
+        <p class="hero__eyebrow" data-hero-fade>
+          <span class="hero__dot"></span> VP Studio · Consultoría y Arquitectura Digital
+        </p>
+        <h1 class="hero__title">
+          <span class="line">Construimos</span>
+          <span class="line"><span class="hero__swap-wrap"><span class="hero__swap" id="heroSwap">sitios web</span></span></span>
+          <span class="line">que hacen crecer<br>tu negocio.</span>
+        </h1>
+        <p class="hero__sub" data-hero-fade>
+          Diseño, desarrollo y automatización a medida.
+          Sin plantillas, sin vueltas: software pensado para vos.
+        </p>
+        <div class="hero__actions" data-hero-fade>
+          <a href="#contacto" class="btn btn--primary" data-hover data-magnetic>Empezar un proyecto</a>
+          <a href="#servicios" class="btn btn--ghost" data-hover>Ver servicios <span class="btn__arrow">→</span></a>
+        </div>
+      </div>
+      <div class="hero__scrollhint" data-hero-fade aria-hidden="true">
+        <span></span>
+      </div>
+    </section>
+
+    <!-- ===== Marquee ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marqueeTrack">
+        <div class="marquee__group">
+          <span>Diseño web</span><i class="m-dot m-dot--blue"></i>
+          <span>Sistemas a medida</span><i class="m-dot m-dot--purple"></i>
+          <span>Automatización</span><i class="m-dot m-dot--orange"></i>
+          <span>E-commerce</span><i class="m-dot m-dot--green"></i>
+          <span>Integraciones</span><i class="m-dot m-dot--blue"></i>
+          <span>IA aplicada</span><i class="m-dot m-dot--purple"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Servicios ===== -->
+    <section class="section" id="servicios">
+      <div class="container">
+        <p class="section__label" data-reveal>Servicios</p>
+        <h2 class="section__title" data-reveal>Todo lo que tu negocio<br>necesita para funcionar online.</h2>
+
+        <div class="cards">
+          <article class="card card--blue" data-reveal data-tilt>
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="15" rx="2.5"/><path d="M2.5 9h19"/><circle cx="5.6" cy="6.5" r=".2"/><circle cx="8" cy="6.5" r=".2"/></svg>
+            </div>
+            <h3>Sitios web</h3>
+            <p>Landings, sitios institucionales y tiendas online. Rápidos, prolijos y diseñados para convertir visitas en clientes.</p>
+            <span class="card__num" aria-hidden="true">01</span>
+          </article>
+
+          <article class="card card--purple" data-reveal data-tilt>
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3M16 3v3M8 18v3M16 18v3M3 8h3M3 16h3M18 8h3M18 16h3"/><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4" rx="1"/></svg>
+            </div>
+            <h3>Sistemas a medida</h3>
+            <p>Gestión de stock, turnos, clientes, facturación. Software que se adapta a cómo trabajás — y no al revés.</p>
+            <span class="card__num" aria-hidden="true">02</span>
+          </article>
+
+          <article class="card card--orange" data-reveal data-tilt>
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2z"/></svg>
+            </div>
+            <h3>Automatización</h3>
+            <p>Reportes que se arman solos, mensajes que se envían solos, datos que se cargan solos. Tu tiempo, de vuelta.</p>
+            <span class="card__num" aria-hidden="true">03</span>
+          </article>
+        </div>
+
+        <div class="chips" data-reveal>
+          <span class="chip" data-hover><i class="m-dot m-dot--green"></i> IA &amp; chatbots</span>
+          <span class="chip" data-hover><i class="m-dot m-dot--blue"></i> Integraciones y APIs</span>
+          <span class="chip" data-hover><i class="m-dot m-dot--purple"></i> Hosting y mantenimiento</span>
+          <span class="chip" data-hover><i class="m-dot m-dot--orange"></i> Analítica y reportes</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Proceso (sección oscura, pineada) ===== -->
+    <section class="process" id="proceso">
+      <div class="process__pin" id="processPin">
+        <div class="container process__layout">
+          <div class="process__head">
+            <p class="section__label section__label--dark">Proceso</p>
+            <h2 class="section__title section__title--dark">Simple para vos.<br>Riguroso por dentro.</h2>
+            <div class="process__progress" aria-hidden="true"><div class="process__bar" id="processBar"></div></div>
+          </div>
+          <ol class="process__steps" id="processSteps">
+            <li class="process__step">
+              <span class="process__num">01</span>
+              <h3>Escuchamos</h3>
+              <p>Una reunión para entender tu negocio, qué te frena y qué querés lograr. Sin tecnicismos.</p>
+            </li>
+            <li class="process__step">
+              <span class="process__num">02</span>
+              <h3>Diseñamos</h3>
+              <p>Te mostramos una propuesta visual e interactiva antes de escribir una sola línea de código.</p>
+            </li>
+            <li class="process__step">
+              <span class="process__num">03</span>
+              <h3>Construimos</h3>
+              <p>Desarrollo por etapas con avances que podés ver y probar. Nada de desaparecer por meses.</p>
+            </li>
+            <li class="process__step">
+              <span class="process__num">04</span>
+              <h3>Lanzamos y acompañamos</h3>
+              <p>Publicamos, medimos y seguimos al lado tuyo. El lanzamiento es el comienzo, no el final.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Principios ===== -->
+    <section class="section section--alt" id="principios">
+      <div class="container">
+        <p class="section__label" data-reveal>Por qué VP</p>
+        <h2 class="section__title" data-reveal>Trabajás directo<br>con quienes construyen.</h2>
+        <div class="principles">
+          <div class="principle" data-reveal>
+            <span class="principle__accent principle__accent--blue"></span>
+            <h3>Sin intermediarios</h3>
+            <p>Hablás con los desarrolladores, no con un vendedor. Las decisiones se toman rápido y sin teléfono descompuesto.</p>
+          </div>
+          <div class="principle" data-reveal>
+            <span class="principle__accent principle__accent--purple"></span>
+            <h3>Precios claros</h3>
+            <p>Presupuesto cerrado antes de empezar. Sabés exactamente qué incluye y cuánto cuesta. Sin sorpresas al final.</p>
+          </div>
+          <div class="principle" data-reveal>
+            <span class="principle__accent principle__accent--orange"></span>
+            <h3>Entregas por etapas</h3>
+            <p>Ves avances concretos cada semana. Podés ajustar el rumbo en el camino, no cuando ya es tarde.</p>
+          </div>
+          <div class="principle" data-reveal>
+            <span class="principle__accent principle__accent--green"></span>
+            <h3>Soporte real</h3>
+            <p>Después del lanzamiento seguimos ahí. Mantenimiento, mejoras y respuesta cuando la necesitás.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA / Contacto ===== -->
+    <section class="cta" id="contacto">
+      <div class="container cta__inner">
+        <p class="section__label" data-reveal>Contacto</p>
+        <h2 class="cta__title" data-reveal>¿Tenés un proyecto<br>en mente? <span class="cta__accent">Hablemos.</span></h2>
+        <p class="cta__sub" data-reveal>Contanos tu idea y te respondemos dentro de las 24 horas con los próximos pasos.</p>
+        <div class="cta__actions" data-reveal>
+          <a href="mailto:hola@vpstudio.com" class="btn btn--primary btn--big" data-hover data-magnetic>Escribinos</a>
+          <span class="cta__mail">hola@vpstudio.com</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="nav__mark nav__mark--footer">VP</span>
+        <div>
+          <div class="footer__name">VP Studio</div>
+          <div class="footer__tag">Consultoría y Arquitectura Digital</div>
+        </div>
+      </div>
+      <nav class="footer__links">
+        <a href="#servicios" data-hover>Servicios</a>
+        <a href="#proceso" data-hover>Proceso</a>
+        <a href="#principios" data-hover>Por qué VP</a>
+        <a href="#contacto" data-hover>Contacto</a>
+      </nav>
+      <div class="footer__copy">© 2026 VP Studio. Hecho a mano, con código propio.</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
