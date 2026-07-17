@@ -25,9 +25,9 @@ function smoothScroll() {
   if (reduceMotion || typeof window.Lenis === "undefined") return;
 
   lenis = new Lenis({
-    duration: 1.15,
-    // easing exponencial: arranca rápido y "aterriza" muy suave
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    // lerp en vez de duration: responde al instante a la rueda y
+    // "aterriza" suave, sin la sensación flotante de arrastre.
+    lerp: 0.14,
     smoothWheel: true,
     wheelMultiplier: 1,
     touchMultiplier: 1.6,
@@ -51,7 +51,7 @@ function anchorLinks() {
       const id = link.getAttribute("href");
       if (id === "#" || id === "#top") {
         e.preventDefault();
-        if (lenis) lenis.scrollTo(0, { duration: 1.3 });
+        if (lenis) lenis.scrollTo(0, { duration: 1.0 });
         else window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
         return;
       }
@@ -59,7 +59,7 @@ function anchorLinks() {
       if (!target) return;
       e.preventDefault();
       if (lenis) {
-        lenis.scrollTo(target, { offset: -navH, duration: 1.3 });
+        lenis.scrollTo(target, { offset: -navH, duration: 1.0 });
       } else {
         const y = target.getBoundingClientRect().top + window.scrollY - navH;
         window.scrollTo({ top: y, behavior: reduceMotion ? "auto" : "smooth" });
@@ -74,6 +74,14 @@ function anchorLinks() {
 function intro() {
   const loader = document.getElementById("loader");
 
+  // El loader completo solo en la primera visita de la sesión;
+  // después, directo al contenido (estilo Apple: cero espera).
+  let seen = false;
+  try {
+    seen = sessionStorage.getItem("vp-intro") === "1";
+    sessionStorage.setItem("vp-intro", "1");
+  } catch (e) { /* modo incógnito estricto: sin sessionStorage */ }
+
   if (reduceMotion) {
     loader.remove();
     return;
@@ -81,24 +89,29 @@ function intro() {
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  // La marca aparece con un leve zoom y baja la tagline
-  tl.from(".vp-mark--loader", { scale: 0.86, autoAlpha: 0, duration: 0.8, ease: "power3.out" })
-    .to(".loader__tag", { opacity: 1, duration: 0.5 }, "-=0.35")
-    .to(loader, {
-      yPercent: -100,
-      duration: 0.9,
-      ease: "power4.inOut",
-      delay: 0.35,
-      onComplete: () => loader.remove(),
-    })
-    // Hero: líneas del título suben desde abajo
-    .fromTo(
-      ".hero__title .line",
-      { yPercent: 110, visibility: "visible" },
-      { yPercent: 0, duration: 1.1, stagger: 0.12, ease: "power4.out" },
-      "-=0.45"
-    )
-    .to("[data-hero-fade]", { opacity: 1, duration: 0.9, stagger: 0.12 }, "-=0.7");
+  if (seen) {
+    loader.remove();
+  } else {
+    // Marca con zoom breve + cortina. Rápido: el loader no debe hacer esperar.
+    tl.from(".vp-mark--loader", { scale: 0.9, autoAlpha: 0, duration: 0.45 })
+      .to(".loader__tag", { opacity: 1, duration: 0.3 }, "-=0.25")
+      .to(loader, {
+        yPercent: -100,
+        duration: 0.65,
+        ease: "power4.inOut",
+        delay: 0.15,
+        onComplete: () => loader.remove(),
+      });
+  }
+
+  // Hero: líneas del título suben desde abajo
+  tl.fromTo(
+    ".hero__title .line",
+    { yPercent: 110, visibility: "visible" },
+    { yPercent: 0, duration: 0.9, stagger: 0.09, ease: "power4.out" },
+    seen ? 0 : "-=0.4"
+  )
+    .to("[data-hero-fade]", { opacity: 1, duration: 0.6, stagger: 0.08 }, "-=0.65");
 }
 
 /* --------------------------------------------------------------------------
@@ -192,14 +205,14 @@ function reveals() {
   }
 
   ScrollTrigger.batch("[data-reveal]", {
-    start: "top 86%",
+    start: "top 92%",
     once: true,
     onEnter: (elements) => {
       gsap.to(elements, {
         opacity: 1,
         y: 0,
-        duration: 1,
-        stagger: 0.12,
+        duration: 0.7,
+        stagger: 0.08,
         ease: "power3.out",
         overwrite: true,
       });
@@ -317,8 +330,8 @@ function cursor() {
   if (reduceMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
   const dot = document.getElementById("cursor");
-  const setX = gsap.quickTo(dot, "x", { duration: 0.25, ease: "power3.out" });
-  const setY = gsap.quickTo(dot, "y", { duration: 0.25, ease: "power3.out" });
+  const setX = gsap.quickTo(dot, "x", { duration: 0.12, ease: "power2.out" });
+  const setY = gsap.quickTo(dot, "y", { duration: 0.12, ease: "power2.out" });
 
   window.addEventListener("mousemove", (e) => {
     dot.classList.add("is-active");

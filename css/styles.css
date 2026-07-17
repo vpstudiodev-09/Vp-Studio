@@ -732,7 +732,7 @@ a { color: inherit; text-decoration: none; }
 /* ==========================================================================
    Estados de animación (JS los resuelve; sin JS todo queda visible)
    ========================================================================== */
-.js [data-reveal] { opacity: 0; transform: translateY(36px); }
+.js [data-reveal] { opacity: 0; transform: translateY(24px); }
 .js .hero__title .line { visibility: hidden; }
 .js [data-hero-fade] { opacity: 0; }
 .js .vp-mark--loader { opacity: 0; }
