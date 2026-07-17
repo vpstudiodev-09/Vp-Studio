@@ -30,50 +30,9 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ==========================================================================
-   Logo VP — marca reutilizable (marco + "VP" + punto verde)
-   Todo escala con el font-size del contenedor (unidades em).
-   El color del marco y las letras hereda de `color` → se pinta negro o blanco
-   según el fondo. El punto siempre verde (acento de marca).
+   Logo VP — imagen real del brand kit (assets/logo-mark-dark.png):
+   caja negra + marco blanco + "VP" + punto verde. Cuadrada, 360x360.
    ========================================================================== */
-/* Caja negra sólida con marco blanco fino y "VP" en blanco (variante icono negro) */
-.vp-mark {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--black);
-  padding: 0.3em;
-  border-radius: 3px;
-  flex-shrink: 0;
-}
-
-.vp-mark__frame {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  padding: 0.34em 0.52em;
-  line-height: 1;
-}
-
-.vp-mark__letters {
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  font-size: 1em;
-  color: #fff;
-  line-height: 1;
-}
-
-.vp-mark__dot {
-  position: absolute;
-  top: 0.3em;
-  right: 0.32em;
-  width: 0.16em;
-  height: 0.16em;
-  border-radius: 50%;
-  background: var(--logo-accent);
-}
 
 html { scroll-behavior: smooth; }
 
@@ -129,7 +88,10 @@ a { color: inherit; text-decoration: none; }
 
 /* La marca en el loader: grande, sobre el fondo blanco */
 .vp-mark--loader {
-  font-size: clamp(38px, 6.5vw, 58px);
+  width: clamp(120px, 18vw, 168px);
+  height: auto;
+  border-radius: 16px;
+  display: block;
 }
 
 .loader__tag {
@@ -194,8 +156,13 @@ a { color: inherit; text-decoration: none; }
 
 .nav__logo { display: flex; align-items: center; gap: 9px; }
 
-/* Tamaño de la marca en el nav (usa el componente .vp-mark) */
-.nav__mark { font-size: 13px; }
+/* La marca en el nav: imagen cuadrada del logo */
+.nav__mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  display: block;
+}
 
 /* Wordmark del nav: "STUDIO" en mayúsculas y espaciado, para que junto al
    ícono VP lea como el lockup de marca "VP STUDIO". */
@@ -740,7 +707,7 @@ a { color: inherit; text-decoration: none; }
 
 .footer__brand { display: flex; align-items: center; gap: 12px; }
 
-.nav__mark--footer { font-size: 15px; }
+.nav__mark--footer { width: 42px; height: 42px; border-radius: 9px; }
 
 .footer__name { font-size: 15px; font-weight: 600; }
 

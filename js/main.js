@@ -81,10 +81,9 @@ function intro() {
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  // La marca aparece con un leve zoom, el punto verde "explota" y baja la tagline
-  tl.from(".vp-mark--loader", { scale: 0.86, autoAlpha: 0, duration: 0.7 })
-    .from(".vp-mark--loader .vp-mark__dot", { scale: 0, duration: 0.45, ease: "back.out(3)" }, "-=0.25")
-    .to(".loader__tag", { opacity: 1, duration: 0.5 }, "-=0.3")
+  // La marca aparece con un leve zoom y baja la tagline
+  tl.from(".vp-mark--loader", { scale: 0.86, autoAlpha: 0, duration: 0.8, ease: "power3.out" })
+    .to(".loader__tag", { opacity: 1, duration: 0.5 }, "-=0.35")
     .to(loader, {
       yPercent: -100,
       duration: 0.9,
