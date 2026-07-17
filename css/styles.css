@@ -573,7 +573,9 @@ a { color: inherit; text-decoration: none; }
   width: 100%;
 }
 
-.process__head { position: sticky; top: 120px; }
+/* Sin sticky: la sección ya está pineada (queda fija), así que el título
+   se mantiene quieto por sí solo. El sticky acá causaba el salto brusco. */
+.process__head { position: static; }
 
 .process__head .section__title { margin-bottom: 40px; }
 
