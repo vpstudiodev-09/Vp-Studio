@@ -35,8 +35,23 @@
         <a href="#principios" data-hover>Por qué VP</a>
       </nav>
       <a href="#contacto" class="nav__cta" data-hover data-magnetic>Hablemos</a>
+      <button class="nav__burger" id="navBurger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <!-- ===== Menú mobile ===== -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu__links">
+      <a href="#servicios" class="mobile-menu__link">Servicios</a>
+      <a href="#proceso" class="mobile-menu__link">Proceso</a>
+      <a href="#principios" class="mobile-menu__link">Por qué VP</a>
+      <a href="#contacto" class="mobile-menu__link">Contacto</a>
+    </nav>
+    <a href="mailto:vpstudio.dev@gmail.com" class="mobile-menu__wa">Escribinos</a>
+  </div>
+  <div class="mobile-menu__overlay" id="mobileOverlay"></div>
 
   <main id="top">
 
@@ -89,7 +104,7 @@
         <p class="section__label" data-reveal>Servicios</p>
         <h2 class="section__title" data-reveal>Todo lo que tu negocio<br>necesita para funcionar online.</h2>
 
-        <div class="cards">
+        <div class="cards carousel" id="cardsCarousel">
           <article class="card card--blue" data-reveal data-tilt>
             <div class="card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="15" rx="2.5"/><path d="M2.5 9h19"/><circle cx="5.6" cy="6.5" r=".2"/><circle cx="8" cy="6.5" r=".2"/></svg>
@@ -167,7 +182,7 @@
       <div class="container">
         <p class="section__label" data-reveal>Por qué VP</p>
         <h2 class="section__title" data-reveal>Trabajás directo<br>con quienes construyen.</h2>
-        <div class="principles">
+        <div class="principles carousel" id="principlesCarousel">
           <div class="principle" data-reveal>
             <span class="principle__accent principle__accent--blue"></span>
             <h3>Sin intermediarios</h3>
@@ -227,9 +242,9 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

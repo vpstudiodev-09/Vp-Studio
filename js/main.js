@@ -364,8 +364,203 @@ function heroParallax() {
 }
 
 /* --------------------------------------------------------------------------
+   Menú mobile (hamburger)
+   -------------------------------------------------------------------------- */
+function mobileMenu() {
+  const burger = document.getElementById("navBurger");
+  const menu   = document.getElementById("mobileMenu");
+  const overlay = document.getElementById("mobileOverlay");
+  if (!burger || !menu || !overlay) return;
+
+  function open() {
+    burger.classList.add("is-open");
+    menu.classList.add("is-open");
+    overlay.classList.add("is-open");
+    burger.setAttribute("aria-expanded", "true");
+    menu.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    burger.classList.remove("is-open");
+    menu.classList.remove("is-open");
+    overlay.classList.remove("is-open");
+    burger.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  burger.addEventListener("click", () =>
+    burger.classList.contains("is-open") ? close() : open()
+  );
+  overlay.addEventListener("click", close);
+  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+}
+
+/* --------------------------------------------------------------------------
+   Carruseles mobile: slide con GSAP, peek del siguiente card,
+   auto-advance, swipe táctil, flechas y dots
+   -------------------------------------------------------------------------- */
+function initCarousels() {
+  const CONFIGS = [
+    { id: "cardsCarousel",      itemSel: ".card",      interval: 3400 },
+    { id: "principlesCarousel", itemSel: ".principle", interval: 4000 },
+  ];
+  const isMobile = () => window.innerWidth <= 640;
+
+  CONFIGS.forEach(({ id, itemSel, interval }) => {
+    const track = document.getElementById(id);
+    if (!track) return;
+    const items = Array.from(track.querySelectorAll(itemSel));
+    if (items.length < 2) return;
+
+    // === Wrapper de viewport (overflow hidden) ===
+    const viewport = document.createElement("div");
+    viewport.className = "c-viewport";
+    track.parentNode.insertBefore(viewport, track);
+    viewport.appendChild(track);
+
+    // === UI: flechas + dots ===
+    const ui = document.createElement("div");
+    ui.className = "c-ui";
+    ui.innerHTML = `
+      <button class="c-arrow c-arrow--prev" aria-label="Anterior">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="c-dots">
+        ${items.map((_, i) =>
+          `<button class="c-dot${i === 0 ? " is-active" : ""}" aria-label="Slide ${i + 1}"></button>`
+        ).join("")}
+      </div>
+      <button class="c-arrow c-arrow--next" aria-label="Siguiente">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>`;
+    viewport.parentNode.insertBefore(ui, viewport.nextSibling);
+
+    const dots    = Array.from(ui.querySelectorAll(".c-dot"));
+    const prevBtn = ui.querySelector(".c-arrow--prev");
+    const nextBtn = ui.querySelector(".c-arrow--next");
+
+    let current    = 0;
+    let autoTimer  = null;
+    let resumeTimer = null;
+    let touchStartX = 0;
+
+    // Offset en px al que debe moverse el track para mostrar el slide idx
+    function getOffset(idx) {
+      const baseLeft = items[0].offsetLeft;
+      return -(items[idx].offsetLeft - baseLeft);
+    }
+
+    function setActive(idx) {
+      current = idx;
+      dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+
+      if (!hasGsap || reduceMotion) return;
+      // Destacar card activa, atenuar las demás
+      items.forEach((item, i) => {
+        gsap.to(item, {
+          opacity: i === idx ? 1 : 0.38,
+          scale:   i === idx ? 1 : 0.96,
+          duration: 0.45,
+          ease: "power2.out",
+        });
+      });
+    }
+
+    function goTo(idx, animate = true) {
+      setActive(idx);
+      if (!isMobile()) return;
+
+      const x = getOffset(idx);
+      if (!hasGsap) {
+        track.style.transform = `translateX(${x}px)`;
+        return;
+      }
+      if (animate && !reduceMotion) {
+        gsap.to(track, { x, duration: 0.62, ease: "power2.inOut" });
+      } else {
+        gsap.set(track, { x });
+      }
+    }
+
+    const next = () => goTo((current + 1) % items.length);
+    const prev = () => goTo((current - 1 + items.length) % items.length);
+
+    function startAuto() {
+      if (reduceMotion || !isMobile()) return;
+      clearInterval(autoTimer);
+      autoTimer = setInterval(next, interval);
+    }
+    const pauseAuto   = () => clearInterval(autoTimer);
+    const resumeDelay = () => {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(startAuto, 2200);
+    };
+
+    // Botones
+    prevBtn.addEventListener("click", () => { pauseAuto(); prev(); resumeDelay(); });
+    nextBtn.addEventListener("click", () => { pauseAuto(); next(); resumeDelay(); });
+    dots.forEach((d, i) => d.addEventListener("click", () => { pauseAuto(); goTo(i); resumeDelay(); }));
+
+    // Swipe táctil
+    track.addEventListener("touchstart", (e) => {
+      pauseAuto();
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    track.addEventListener("touchend", (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 45) diff > 0 ? next() : prev();
+      resumeDelay();
+    }, { passive: true });
+
+    // Reset al pasar a desktop
+    const mq = window.matchMedia("(max-width: 640px)");
+    mq.addEventListener("change", (e) => {
+      if (e.matches) {
+        // Double rAF para que el flex layout esté calculado
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          goTo(current, false);
+          startAuto();
+        }));
+      } else {
+        pauseAuto();
+        if (hasGsap) gsap.set(track, { x: 0, clearProps: "transform" });
+        items.forEach(item => {
+          if (hasGsap) gsap.set(item, { opacity: 1, scale: 1, clearProps: "opacity,scale" });
+        });
+      }
+    });
+
+    // Pausa cuando la sección sale de pantalla
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        ([entry]) => { entry.isIntersecting ? (isMobile() && startAuto()) : pauseAuto(); },
+        { threshold: 0.15 }
+      ).observe(viewport);
+    }
+
+    // Inicializar posición una vez el layout flex esté calculado
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (isMobile()) {
+        goTo(0, false);
+        startAuto();
+      }
+    }));
+  });
+}
+
+/* --------------------------------------------------------------------------
    Init
    -------------------------------------------------------------------------- */
+try { mobileMenu(); } catch (e) { console.warn("mobileMenu error:", e); }
+try { initCarousels(); } catch (e) { console.warn("initCarousels error:", e); }
+
 if (hasGsap) {
   // --- Arranque inmediato: solo lo esencial para el hero ---
   // (el scroll suave y la animación de entrada son la prioridad visual)
