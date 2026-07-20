@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
   <title>VP Studio — Consultoría y Arquitectura Digital</title>
   <meta name="description" content="VP Studio diseña y desarrolla sitios web, sistemas a medida y automatizaciones para empresas que quieren dar el salto digital.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -213,10 +214,41 @@
         <p class="section__label" data-reveal>Contacto</p>
         <h2 class="cta__title" data-reveal>¿Tenés un proyecto<br>en mente? <span class="cta__accent">Hablemos.</span></h2>
         <p class="cta__sub" data-reveal>Contanos tu idea y te respondemos dentro de las 24 horas con los próximos pasos.</p>
+
         <div class="cta__actions" data-reveal>
-          <a href="mailto:vpstudio.dev@gmail.com" class="btn btn--primary btn--big" data-hover data-magnetic>Escribinos</a>
-          <span class="cta__mail">vpstudio.dev@gmail.com</span>
+          <button type="button" class="btn btn--primary btn--big cta__toggle" data-cta-toggle aria-expanded="false" aria-controls="cta-form-panel" data-hover data-magnetic>
+            <span class="cta__toggle-label">Hablemos</span>
+            <span class="cta__toggle-arrow" aria-hidden="true">→</span>
+          </button>
         </div>
+
+        <div class="cta__panel" id="cta-form-panel" data-cta-panel>
+        <form class="cta__form" action="https://formspree.io/f/mdaqzylz" method="POST">
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="cf-nombre">Nombre</label>
+              <input class="form__input" id="cf-nombre" name="nombre" type="text" placeholder="Tu nombre" required autocomplete="name">
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="cf-email">Email</label>
+              <input class="form__input" id="cf-email" name="email" type="email" placeholder="tu@correo.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="cf-empresa">Empresa <span class="form__opt">(opcional)</span></label>
+            <input class="form__input" id="cf-empresa" name="empresa" type="text" placeholder="Nombre de tu empresa o proyecto" autocomplete="organization">
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="cf-mensaje">Contanos sobre tu proyecto</label>
+            <textarea class="form__input form__textarea" id="cf-mensaje" name="mensaje" rows="4" placeholder="¿Qué querés construir? Objetivos, plazos, presupuesto estimado…" required></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="Nuevo contacto desde vpstudio.dev">
+          <button type="submit" class="btn btn--primary btn--big cta__submit" data-hover data-magnetic>Enviar mensaje</button>
+          <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+        </div>
+
+        <span class="cta__mail" data-reveal>O escribinos a <a href="mailto:vpstudio.dev@gmail.com" data-hover>vpstudio.dev@gmail.com</a></span>
       </div>
     </section>
 

@@ -593,3 +593,129 @@ if (hasGsap) {
     else window.addEventListener("load", startDeferred);
   }
 }
+
+/* --------------------------------------------------------------------------
+   Formulario de contacto (envío AJAX a Formspree)
+   -------------------------------------------------------------------------- */
+(() => {
+  const form = document.querySelector(".cta__form");
+  if (!form) return;
+
+  const status = form.querySelector("[data-form-status]");
+  const submit = form.querySelector('button[type="submit"]');
+
+  const setStatus = (msg, kind) => {
+    if (!status) return;
+    status.textContent = msg;
+    status.classList.remove("is-ok", "is-error");
+    if (kind) status.classList.add(kind);
+  };
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Si todavía no configuraste tu Form ID, avisá en vez de romper.
+    if (form.action.includes("TU_FORM_ID")) {
+      setStatus("El formulario todavía no está configurado. Falta el Form ID de Formspree.", "is-error");
+      return;
+    }
+
+    setStatus("Enviando…", null);
+    if (submit) submit.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (res.ok) {
+        form.reset();
+        setStatus("¡Gracias! Recibimos tu mensaje y te respondemos dentro de las 24 horas.", "is-ok");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const msg = data?.errors?.map((x) => x.message).join(", ");
+        setStatus(msg || "No pudimos enviar el mensaje. Probá de nuevo o escribinos por mail.", "is-error");
+      }
+    } catch {
+      setStatus("Hubo un problema de conexión. Probá de nuevo o escribinos por mail.", "is-error");
+    } finally {
+      if (submit) submit.disabled = false;
+    }
+  });
+})();
+
+/* --------------------------------------------------------------------------
+   CTA: el formulario aparece recién al tocar "Hablemos" (expand con GSAP)
+   -------------------------------------------------------------------------- */
+(() => {
+  const toggle = document.querySelector("[data-cta-toggle]");
+  const panel = document.querySelector("[data-cta-panel]");
+  if (!toggle || !panel) return;
+
+  const useGsap = typeof window.gsap !== "undefined" && !reduceMotion;
+  const label = toggle.querySelector(".cta__toggle-label");
+  const fields = panel.querySelectorAll(".form__field, .cta__submit");
+  let open = false;
+  let animating = false;
+
+  const setLabel = (o) => { if (label) label.textContent = o ? "Cerrar" : "Hablemos"; };
+
+  const focusFirst = () => {
+    const first = panel.querySelector(".form__input");
+    if (first) first.focus({ preventScroll: true });
+  };
+
+  const openPanel = () => {
+    open = true;
+    toggle.setAttribute("aria-expanded", "true");
+    setLabel(true);
+
+    if (!useGsap) {
+      panel.style.height = "auto";
+      panel.style.opacity = "1";
+      focusFirst();
+      return;
+    }
+
+    animating = true;
+    gsap.set(fields, { opacity: 0, y: 18 });
+    gsap.timeline({
+      onComplete: () => {
+        panel.style.height = "auto"; // permite crecer si cambia el contenido
+        animating = false;
+        focusFirst();
+        if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
+      },
+    })
+      .to(panel, { height: "auto", opacity: 1, duration: 0.6, ease: "power3.out" })
+      .to(fields, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: "power2.out" }, "-=0.32");
+  };
+
+  const closePanel = () => {
+    open = false;
+    toggle.setAttribute("aria-expanded", "false");
+    setLabel(false);
+
+    if (!useGsap) {
+      panel.style.height = "0";
+      panel.style.opacity = "0";
+      return;
+    }
+
+    animating = true;
+    gsap.to(panel, {
+      height: 0,
+      opacity: 0,
+      duration: 0.45,
+      ease: "power3.inOut",
+      onComplete: () => { animating = false; },
+    });
+  };
+
+  toggle.addEventListener("click", () => {
+    if (animating) return;
+    open ? closePanel() : openPanel();
+  });
+})();

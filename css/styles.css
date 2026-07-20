@@ -34,7 +34,11 @@
    “VP” geométrico, negro sobre transparente. Proporción ~1.94:1.
    ========================================================================== */
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 /* Lenis (smooth scroll): cuando está activo desactiva el scroll-behavior nativo
    para que no pelee con la inercia. Sin JS/Lenis, el bloque de arriba sigue valiendo. */
@@ -51,7 +55,12 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* Sin flash gris al tocar en iOS/Android; el feedback lo damos nosotros */
+  -webkit-tap-highlight-color: transparent;
 }
+
+/* En pantallas táctiles el input de 16px evita el zoom automático de iOS al enfocar */
+input, textarea, select, button { font-family: inherit; }
 
 ::selection { background: var(--accent); color: #fff; }
 
@@ -62,6 +71,9 @@ a { color: inherit; text-decoration: none; }
   max-width: var(--container);
   margin: 0 auto;
   padding: 0 28px;
+  /* Respeta el notch / bordes curvos en iPhone (landscape sobre todo) */
+  padding-left: max(28px, env(safe-area-inset-left));
+  padding-right: max(28px, env(safe-area-inset-right));
 }
 
 /* ==========================================================================
@@ -124,6 +136,29 @@ a { color: inherit; text-decoration: none; }
 
 @media (hover: none), (pointer: coarse) {
   .cursor { display: none; }
+
+  /* En touch no hay hover ni cursor magnético: damos vida con feedback al presionar.
+     Un micro-hundido inmediato hace que todo se sienta táctil y responsivo. */
+  .btn, .nav__cta, .mobile-menu__wa, .card, .principle,
+  .chip, .c-arrow, .c-dot, .cta__mail a {
+    transition: transform .2s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color .25s ease, border-color .25s ease,
+                color .25s ease, box-shadow .3s ease;
+  }
+
+  .btn:active,
+  .nav__cta:active,
+  .mobile-menu__wa:active,
+  .c-arrow:active { transform: scale(0.95); }
+
+  .card:active,
+  .principle:active,
+  .chip:active { transform: scale(0.98); }
+
+  /* El hover del desktop no aplica en touch, así que el estado presionado
+     toma el color de acento para dar la misma sensación de respuesta. */
+  .chip:active { border-color: var(--gray); }
+  .mobile-menu__link:active { color: var(--accent); }
 }
 
 /* ==========================================================================
@@ -146,6 +181,8 @@ a { color: inherit; text-decoration: none; }
   max-width: var(--container);
   margin: 0 auto;
   padding: 0 28px;
+  padding-left: max(28px, env(safe-area-inset-left));
+  padding-right: max(28px, env(safe-area-inset-right));
   height: var(--nav-h);
   display: flex;
   align-items: center;
@@ -685,6 +722,100 @@ a { color: inherit; text-decoration: none; }
 }
 
 .cta__mail { font-size: 15px; color: var(--gray); letter-spacing: 0.01em; }
+.cta__mail a { color: var(--accent); }
+.cta__mail a:hover { text-decoration: underline; }
+
+/* --- Botón que despliega el formulario --- */
+.cta__toggle {
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+.cta__toggle-arrow {
+  display: inline-block;
+  transition: transform .45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cta__toggle[aria-expanded="true"] .cta__toggle-arrow {
+  transform: rotate(90deg);
+}
+
+/* --- Panel colapsable (solo se colapsa si hay JS) --- */
+.cta__panel { overflow: hidden; }
+.js .cta__panel {
+  height: 0;
+  opacity: 0;
+  will-change: height;
+}
+
+/* --- Formulario de contacto --- */
+.cta__form {
+  max-width: 620px;
+  margin: 28px auto 8px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form__field { display: flex; flex-direction: column; gap: 8px; }
+
+.form__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink, #1D1D1F);
+  letter-spacing: -0.01em;
+}
+
+.form__opt { color: var(--gray); font-weight: 400; }
+
+.form__input {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink, #1D1D1F);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.form__input::placeholder { color: var(--gray); }
+
+.form__input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+}
+
+.form__textarea { resize: vertical; min-height: 120px; }
+
+.cta__submit {
+  justify-content: center;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.form__status {
+  font-size: 15px;
+  text-align: center;
+  min-height: 20px;
+  margin: 0;
+}
+.form__status.is-ok { color: #1a7f37; }
+.form__status.is-error { color: #d92d20; }
+
+@media (max-width: 560px) {
+  .form__row { grid-template-columns: 1fr; }
+}
 
 /* ==========================================================================
    Footer
@@ -692,6 +823,7 @@ a { color: inherit; text-decoration: none; }
 .footer {
   border-top: 1px solid var(--line);
   padding: 54px 0;
+  padding-bottom: max(54px, calc(28px + env(safe-area-inset-bottom)));
   background: var(--gray-light);
 }
 
@@ -978,16 +1110,20 @@ a { color: inherit; text-decoration: none; }
   .c-arrow:hover  { border-color: var(--accent); color: var(--accent); }
   .c-arrow:active { transform: scale(0.88); }
 
-  /* Chips en mobile: scroll horizontal */
+  /* Chips en mobile: scroll horizontal con inercia */
   .chips {
     flex-wrap: nowrap;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
     padding-bottom: 8px;
     margin: 0 -28px;
     padding-left: 28px;
     padding-right: 28px;
     scrollbar-width: none;
   }
+  .chip { scroll-snap-align: start; }
   .chips::-webkit-scrollbar { display: none; }
   .chip { flex-shrink: 0; }
 }
