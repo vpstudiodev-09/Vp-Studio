@@ -1118,9 +1118,12 @@ a { color: inherit; text-decoration: none; }
   z-index: 48;
   background: rgba(0,0,0,0.18);
   opacity: 0;
+  /* Cerrado: invisible Y sin capturar toques. Sin esto, el overlay tapa
+     toda la pantalla en mobile y ningún botón del cuerpo responde. */
+  pointer-events: none;
   transition: opacity .3s ease;
 }
-.mobile-menu__overlay.is-open { opacity: 1; }
+.mobile-menu__overlay.is-open { opacity: 1; pointer-events: auto; }
 
 /* ==========================================================================
    Carrusel mobile — viewport, track, UI
