@@ -94,12 +94,13 @@ function intro() {
   } else {
     // Marca con zoom breve + cortina. Rápido: el loader no debe hacer esperar.
     tl.from(".vp-mark--loader", { scale: 0.9, autoAlpha: 0, duration: 0.45 })
-      .to(".loader__tag", { opacity: 1, duration: 0.3 }, "-=0.25")
+      .to(".loader__brand", { opacity: 1, duration: 0.3 }, "-=0.2")
+      .to(".loader__tag", { opacity: 1, duration: 0.3 }, "-=0.15")
       .to(loader, {
         yPercent: -100,
         duration: 0.65,
         ease: "power4.inOut",
-        delay: 0.15,
+        delay: 0.2,
         onComplete: () => loader.remove(),
       });
   }
