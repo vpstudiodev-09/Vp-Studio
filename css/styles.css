@@ -723,7 +723,13 @@ a { color: inherit; text-decoration: none; }
   gap: 18px;
 }
 
-.cta__mail { font-size: 15px; color: var(--gray); letter-spacing: 0.01em; }
+.cta__mail {
+  display: inline-block;
+  margin-top: 28px;
+  font-size: 15px;
+  color: var(--gray);
+  letter-spacing: 0.01em;
+}
 .cta__mail a { color: var(--accent); }
 .cta__mail a:hover { text-decoration: underline; }
 
@@ -1269,20 +1275,6 @@ a { color: inherit; text-decoration: none; }
   .c-arrow:hover  { border-color: var(--accent); color: var(--accent); }
   .c-arrow:active { transform: scale(0.88); }
 
-  /* Chips en mobile: scroll horizontal con inercia */
-  .chips {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    padding-bottom: 8px;
-    margin: 0 -28px;
-    padding-left: 28px;
-    padding-right: 28px;
-    scrollbar-width: none;
-  }
-  .chip { scroll-snap-align: start; }
-  .chips::-webkit-scrollbar { display: none; }
-  .chip { flex-shrink: 0; }
+  /* Chips: ocultas en mobile; las 3 cards del carrusel alcanzan */
+  .chips { display: none; }
 }
