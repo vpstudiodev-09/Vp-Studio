@@ -401,9 +401,10 @@ function mobileMenu() {
    auto-advance, swipe táctil, flechas y dots
    -------------------------------------------------------------------------- */
 function initCarousels() {
+  // interval = tiempo de lectura por card (el avance solo corre si el carrusel está a la vista)
   const CONFIGS = [
-    { id: "cardsCarousel",      itemSel: ".card",      interval: 3400 },
-    { id: "principlesCarousel", itemSel: ".principle", interval: 4000 },
+    { id: "cardsCarousel",      itemSel: ".card",      interval: 4500 },
+    { id: "principlesCarousel", itemSel: ".principle", interval: 5200 },
   ];
   const isMobile = () => window.innerWidth <= 640;
 
@@ -450,6 +451,7 @@ function initCarousels() {
     let autoTimer  = null;
     let resumeTimer = null;
     let touchStartX = 0;
+    let inView     = false;
 
     // Offset en px al que debe moverse el track para mostrar el slide idx
     function getOffset(idx) {
@@ -493,14 +495,15 @@ function initCarousels() {
     const prev = () => goTo((current - 1 + items.length) % items.length);
 
     function startAuto() {
-      if (reduceMotion || !isMobile()) return;
+      if (reduceMotion || !isMobile() || !inView) return;
       clearInterval(autoTimer);
+      // setInterval espera un ciclo completo antes del 1er avance → tiempo de lectura en la card actual
       autoTimer = setInterval(next, interval);
     }
-    const pauseAuto   = () => clearInterval(autoTimer);
+    const pauseAuto   = () => { clearInterval(autoTimer); autoTimer = null; };
     const resumeDelay = () => {
       clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(startAuto, 2200);
+      resumeTimer = setTimeout(startAuto, 2800);
     };
 
     // Botones
@@ -525,8 +528,8 @@ function initCarousels() {
       if (e.matches) {
         // Double rAF para que el flex layout esté calculado
         requestAnimationFrame(() => requestAnimationFrame(() => {
-          goTo(current, false);
-          startAuto();
+          goTo(0, false);
+          if (inView) startAuto();
         }));
       } else {
         pauseAuto();
@@ -537,20 +540,29 @@ function initCarousels() {
       }
     });
 
-    // Pausa cuando la sección sale de pantalla
+    // Solo avanza cuando el carrusel está bien a la vista (no mientras scrolleás hacia él)
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(
-        ([entry]) => { entry.isIntersecting ? (isMobile() && startAuto()) : pauseAuto(); },
-        { threshold: 0.15 }
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            inView = true;
+            if (!isMobile()) return;
+            // Empezar siempre desde la primera card al llegar
+            goTo(0, false);
+            startAuto();
+          } else {
+            inView = false;
+            pauseAuto();
+            clearTimeout(resumeTimer);
+          }
+        },
+        { threshold: 0.45, rootMargin: "0px 0px -8% 0px" }
       ).observe(viewport);
     }
 
-    // Inicializar posición una vez el layout flex esté calculado
+    // Solo posicionar en slide 0; el auto-advance lo dispara el IntersectionObserver
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (isMobile()) {
-        goTo(0, false);
-        startAuto();
-      }
+      if (isMobile()) goTo(0, false);
     }));
   });
 }
