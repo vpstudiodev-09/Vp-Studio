@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
-  <title>Trabajos — VP Studio</title>
-  <meta name="description" content="Proyectos reales de VP Studio: tiendas online, sitios institucionales y sistemas a medida para clientes de San Rafael y toda Argentina.">
+  <title>Cartera de clientes — VP Studio</title>
+  <meta name="description" content="Cartera de clientes de VP Studio: tiendas online, sitios institucionales y sistemas a medida para empresas de San Rafael y toda Argentina.">
   <meta name="robots" content="index,follow">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231D1D1F'/%3E%3Crect x='15' y='19' width='34' height='26' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3Ctext x='31' y='39' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='19' font-weight='700' fill='%23ffffff' text-anchor='middle' letter-spacing='-0.5'%3EVP%3C/text%3E%3Ccircle cx='44' cy='24' r='2.6' fill='%2334a465'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../css/styles.css?v=4">
+  <link rel="stylesheet" href="../css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../css/styles.css?v=7">
 </head>
 <body>
 
@@ -21,7 +22,7 @@
       <nav class="nav__links">
         <a href="/#servicios" data-hover>Servicios</a>
         <a href="/#proceso" data-hover>Proceso</a>
-        <a href="/trabajos" aria-current="page" data-hover>Trabajos</a>
+        <a href="/cartera" aria-current="page" data-hover>Cartera</a>
         <a href="/#principios" data-hover>Por qué VP</a>
       </nav>
       <a href="/#contacto" class="nav__cta" data-hover>Hablemos</a>
@@ -32,12 +33,14 @@
     <div class="container">
 
       <header class="works-page__head">
-        <p class="section__label" data-reveal>Trabajos</p>
+        <p class="section__label" data-reveal>Cartera de clientes</p>
         <h1 class="works-page__title" data-reveal>Proyectos reales,<br>clientes reales.</h1>
-        <p class="works-page__sub" data-reveal>Una selección de lo que construimos: cada proyecto está online, funcionando y generando resultados para su dueño. Tocá cualquiera para verlo en vivo.</p>
+        <p class="works-page__sub cartera-desktop" data-reveal>Una selección de lo que construimos: cada proyecto está online, funcionando y generando resultados para su dueño. Tocá cualquiera para verlo en vivo.</p>
+        <p class="works-page__sub cartera-mobile" data-reveal>Deslizá las cartas para recorrer la cartera. Cada proyecto está online — tocá “Ver sitio” para abrirlo en vivo.</p>
       </header>
 
-      <div class="works">
+      <!-- Desktop: showcase alternado -->
+      <div class="works cartera-desktop">
 
         <article class="work work--blue">
           <div class="work__media" data-reveal>
@@ -122,6 +125,76 @@
 
       </div>
 
+      <!-- Mobile / tablet: mazo swipe -->
+      <div class="deck deck--page cartera-mobile" data-reveal data-deck>
+        <div class="swiper deck__swiper" data-lenis-prevent>
+          <div class="swiper-wrapper">
+
+            <article class="swiper-slide deck-card deck-card--blue">
+              <div class="deck-card__media">
+                <img class="deck-card__img" src="../assets/work-agustina.png" alt="Tienda online de Agustina San Rafael" width="1600" height="770" draggable="false">
+              </div>
+              <div class="deck-card__body">
+                <span class="deck-card__num" aria-hidden="true">01</span>
+                <p class="deck-card__rubro">Moda femenina</p>
+                <h2 class="deck-card__name">Agustina San Rafael</h2>
+                <p class="deck-card__desc">Tienda online hecha a medida: catálogo por categorías, carrito y cierre de compra directo por WhatsApp.</p>
+                <div class="deck-card__tags">
+                  <span class="deck-card__tag">E-commerce</span>
+                  <span class="deck-card__tag">Web a medida</span>
+                  <span class="deck-card__tag">Carrito</span>
+                </div>
+                <a class="deck-card__cta" href="https://agustinasr.vercel.app/" target="_blank" rel="noopener" data-hover>Visitar el sitio <span aria-hidden="true">↗</span></a>
+              </div>
+            </article>
+
+            <article class="swiper-slide deck-card deck-card--green">
+              <div class="deck-card__media">
+                <img class="deck-card__img" src="../assets/work-estudio.png" alt="Web institucional de Gimena Pérez Abogada" width="1600" height="770" draggable="false">
+              </div>
+              <div class="deck-card__body">
+                <span class="deck-card__num" aria-hidden="true">02</span>
+                <p class="deck-card__rubro">Estudio jurídico</p>
+                <h2 class="deck-card__name">Gimena Pérez Abogada</h2>
+                <p class="deck-card__desc">Web institucional con dominio propio: áreas de práctica, trayectoria y canales de consulta.</p>
+                <div class="deck-card__tags">
+                  <span class="deck-card__tag">Institucional</span>
+                  <span class="deck-card__tag">Multipágina</span>
+                  <span class="deck-card__tag">SEO</span>
+                </div>
+                <a class="deck-card__cta" href="https://gimenaperezabogada.com.ar/" target="_blank" rel="noopener" data-hover>Visitar el sitio <span aria-hidden="true">↗</span></a>
+              </div>
+            </article>
+
+            <article class="swiper-slide deck-card deck-card--orange">
+              <div class="deck-card__media">
+                <img class="deck-card__img" src="../assets/work-ruper.png" alt="Tienda online de Ruper" width="1600" height="770" draggable="false">
+              </div>
+              <div class="deck-card__body">
+                <span class="deck-card__num" aria-hidden="true">03</span>
+                <p class="deck-card__rubro">Alimento balanceado</p>
+                <h2 class="deck-card__name">Ruper</h2>
+                <p class="deck-card__desc">Tienda online para alimentos de animales: catálogo dinámico, búsqueda rápida y pedidos simples.</p>
+                <div class="deck-card__tags">
+                  <span class="deck-card__tag">E-commerce</span>
+                  <span class="deck-card__tag">Catálogo</span>
+                  <span class="deck-card__tag">Next.js</span>
+                </div>
+                <a class="deck-card__cta" href="https://web-ruper.vercel.app/" target="_blank" rel="noopener" data-hover>Visitar el sitio <span aria-hidden="true">↗</span></a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <div class="deck__controls">
+          <button type="button" class="deck__btn" data-deck-prev aria-label="Proyecto anterior">←</button>
+          <p class="deck__hint">Deslizá la carta · vuelve al mazo</p>
+          <span class="deck__count" aria-live="polite"><span data-deck-current>1</span> / <span data-deck-total>3</span></span>
+          <button type="button" class="deck__btn" data-deck-next aria-label="Siguiente proyecto">→</button>
+        </div>
+      </div>
+
       <div class="works-cta" data-reveal>
         <h2 class="works-cta__title">¿El próximo puede ser el tuyo?</h2>
         <p class="works-cta__sub">Contanos tu idea y te respondemos dentro de las 24 horas con los próximos pasos.</p>
@@ -153,7 +226,7 @@
               <label class="form__label" for="wf-mensaje">Contanos sobre tu proyecto</label>
               <textarea class="form__input form__textarea" id="wf-mensaje" name="mensaje" rows="4" placeholder="¿Qué querés construir? Objetivos, plazos, presupuesto estimado…" required></textarea>
             </div>
-            <input type="hidden" name="_subject" value="Nuevo contacto desde vpstudio.dev (página Trabajos)">
+            <input type="hidden" name="_subject" value="Nuevo contacto desde vpstudio.dev (página Cartera)">
             <button type="submit" class="btn btn--primary btn--big cta__submit" data-hover>Enviar mensaje</button>
             <p class="form__status" data-form-status role="status" aria-live="polite"></p>
           </form>
@@ -178,7 +251,7 @@
         <nav class="footer__links" aria-label="Navegación del pie">
           <a href="/#servicios">Servicios</a>
           <a href="/#proceso">Proceso</a>
-          <a href="/trabajos" aria-current="page">Trabajos</a>
+          <a href="/cartera" aria-current="page">Cartera</a>
           <a href="/#principios">Por qué VP</a>
           <a href="/#contacto">Contacto</a>
         </nav>
@@ -197,18 +270,19 @@
   <script src="../js/vendor/gsap.min.js"></script>
   <script src="../js/vendor/ScrollTrigger.min.js"></script>
   <script src="../js/vendor/lenis.min.js"></script>
+  <script src="../js/vendor/swiper-bundle.min.js"></script>
+  <script src="../js/deck.js?v=2"></script>
   <script>
-    /* Animaciones de la página de trabajos: reveals + parallax.
+    /* Animaciones de la página de cartera: reveals.
        Independiente de main.js (que asume secciones de la home). */
     (function () {
       var hasGsap = typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (!hasGsap) return; // sin GSAP la página queda estática pero visible
+      if (!hasGsap) return;
 
       document.documentElement.classList.add("js");
       gsap.registerPlugin(ScrollTrigger);
 
-      // Scroll suave (Lenis) sincronizado con ScrollTrigger
       if (!reduce && typeof window.Lenis !== "undefined") {
         var lenis = new Lenis({ lerp: 0.14, smoothWheel: true, touchMultiplier: 1.6 });
         lenis.on("scroll", ScrollTrigger.update);
@@ -227,7 +301,6 @@
           },
         });
 
-        // Parallax de las capturas (solo desktop)
         if (window.matchMedia("(min-width: 901px)").matches) {
           gsap.utils.toArray("[data-work-img]").forEach(function (img) {
             gsap.fromTo(img, { yPercent: -4 }, {
@@ -246,8 +319,6 @@
 
       ScrollTrigger.refresh();
 
-      // Red de seguridad: si el reveal nunca corre (pestaña sin foco),
-      // que el contenido no quede invisible.
       setTimeout(function () {
         gsap.set("[data-reveal]", { opacity: 1, y: 0 });
       }, 4000);

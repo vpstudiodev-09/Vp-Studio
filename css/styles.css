@@ -515,6 +515,7 @@ a { color: inherit; text-decoration: none; }
 .card:hover::before { opacity: 1; }
 
 .card:hover {
+  border-color: var(--card-accent);
   border-color: color-mix(in srgb, var(--card-accent) 40%, var(--line));
   transform: translateY(-4px);
   box-shadow: 0 20px 50px rgba(29, 29, 31, 0.07);
@@ -576,7 +577,7 @@ a { color: inherit; text-decoration: none; }
 .chip:hover { border-color: var(--gray); transform: translateY(-2px); }
 
 /* ==========================================================================
-   Trabajos / Cartera de clientes — showcase alternado
+   Cartera de clientes — showcase alternado
    ========================================================================== */
 .works {
   display: flex;
@@ -621,7 +622,9 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
+  color: rgba(29, 29, 31, 0.08);
   color: color-mix(in srgb, var(--work-accent) 14%, transparent);
+  -webkit-user-select: none;
   user-select: none;
   pointer-events: none;
 }
@@ -712,7 +715,9 @@ a { color: inherit; text-decoration: none; }
   font-size: 12.5px;
   font-weight: 600;
   color: #fff;
+  background: rgba(29, 29, 31, 0.88);
   background: color-mix(in srgb, var(--black) 88%, transparent);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   padding: 8px 16px;
   border-radius: 980px;
@@ -775,8 +780,11 @@ a { color: inherit; text-decoration: none; }
 .work__tag {
   font-size: 12.5px;
   font-weight: 500;
+  color: var(--work-accent);
   color: color-mix(in srgb, var(--work-accent) 70%, var(--black));
+  background: rgba(0, 113, 227, 0.09);
   background: color-mix(in srgb, var(--work-accent) 9%, transparent);
+  border: 1px solid var(--line);
   border: 1px solid color-mix(in srgb, var(--work-accent) 22%, transparent);
   border-radius: 980px;
   padding: 5px 13px;
@@ -796,9 +804,16 @@ a { color: inherit; text-decoration: none; }
 .work__cta-arrow { transition: transform .3s ease; display: inline-block; }
 .work__cta:hover .work__cta-arrow { transform: translateX(5px); }
 
-/* ---- Teaser de trabajos en la home: índice editorial ----
-   Filas con hairlines; en desktop una preview flotante de la captura
-   sigue al cursor (main.js), en mobile se muestra un thumb fijo. */
+/* Desktop vs mobile: showcase/lista en escritorio, mazo solo en responsive */
+@media (min-width: 901px) {
+  .cartera-mobile { display: none !important; }
+}
+
+@media (max-width: 900px) {
+  .cartera-desktop { display: none !important; }
+}
+
+/* ---- Teaser desktop: índice editorial + preview flotante ---- */
 .wlist {
   border-top: 1px solid var(--line);
   margin-bottom: 48px;
@@ -855,18 +870,6 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.01em;
 }
 
-/* Thumb fijo: solo mobile (en desktop lo reemplaza la preview flotante) */
-.wlist__thumb {
-  display: none;
-  width: 92px;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  flex-shrink: 0;
-}
-
 .wlist__arrow {
   font-size: 20px;
   color: var(--line);
@@ -879,7 +882,6 @@ a { color: inherit; text-decoration: none; }
   transform: translateX(6px);
 }
 
-/* Preview flotante que sigue al cursor (la crea main.js) */
 .wpreview {
   position: fixed;
   top: 0;
@@ -903,16 +905,205 @@ a { color: inherit; text-decoration: none; }
   display: block;
 }
 
-@media (hover: none), (max-width: 900px) {
-  .wlist__thumb { display: block; }
+@media (hover: none) {
   .wpreview { display: none; }
 }
 
-@media (max-width: 640px) {
-  .wlist__row { gap: 14px; padding: 22px 2px; }
-  .wlist__row:hover { padding-left: 2px; }
-  .wlist__thumb { width: 74px; }
-  .wlist__arrow { display: none; }
+/* ==========================================================================
+   Cartera — mazo de cartas (Swiper cards) — solo responsive
+   ========================================================================== */
+.deck {
+  --deck-w: min(100%, 520px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  margin: 0 auto 48px;
+  max-width: 100%;
+}
+
+.deck--page {
+  --deck-w: min(100%, 580px);
+  margin-bottom: 72px;
+}
+
+.deck__swiper {
+  width: var(--deck-w);
+  padding: 12px 8px 28px;
+  overflow: visible;
+}
+
+/* Swiper cards: el alto lo define la carta; evitamos saltos al ciclar */
+.deck__swiper .swiper-slide {
+  height: auto;
+}
+
+.deck-card {
+  --work-accent: var(--accent);
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(29, 29, 31, 0.08);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.deck-card--blue   { --work-accent: var(--accent); }
+.deck-card--green  { --work-accent: var(--green); }
+.deck-card--orange { --work-accent: var(--orange); }
+
+.deck-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--gray-light);
+  overflow: hidden;
+}
+
+.deck-card__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(29, 29, 31, 0.18), transparent);
+  pointer-events: none;
+}
+
+.deck-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  pointer-events: none;
+}
+
+.deck-card__body {
+  position: relative;
+  padding: 22px 24px 26px;
+  border-top: 3px solid var(--work-accent);
+}
+
+.deck-card__num {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+}
+
+.deck-card__rubro {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--work-accent);
+  margin-bottom: 8px;
+}
+
+.deck-card__name {
+  font-size: clamp(22px, 3.2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--black);
+  margin-bottom: 6px;
+  padding-right: 36px;
+}
+
+.deck-card__meta {
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 16px;
+}
+
+.deck-card__desc {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--gray);
+  margin: 8px 0 16px;
+  max-width: 36em;
+}
+
+.deck-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.deck-card__tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--work-accent);
+  color: color-mix(in srgb, var(--work-accent) 70%, var(--black));
+  background: rgba(0, 113, 227, 0.08);
+  background: color-mix(in srgb, var(--work-accent) 9%, transparent);
+  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--work-accent) 22%, transparent);
+  border-radius: 980px;
+  padding: 4px 12px;
+}
+
+.deck-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--work-accent);
+  text-decoration: none;
+  transition: gap .3s ease;
+}
+
+.deck-card__cta:hover { gap: 12px; }
+
+.deck__controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 14px 18px;
+  width: var(--deck-w);
+  max-width: 100%;
+}
+
+.deck__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--black);
+  font-size: 18px;
+  cursor: pointer;
+  transition: border-color .25s ease, color .25s ease, transform .25s ease;
+}
+
+.deck__btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.deck__btn:active { transform: scale(0.96); }
+
+.deck__hint {
+  font-size: 13.5px;
+  color: var(--gray);
+  letter-spacing: 0.01em;
+  text-align: center;
+  grid-column: 2;
+}
+
+.deck__count {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--black);
+  font-variant-numeric: tabular-nums;
 }
 
 .works-teaser__actions {
@@ -920,7 +1111,23 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
 }
 
-/* ---- Página /trabajos ---- */
+@media (max-width: 640px) {
+  .deck { gap: 22px; margin-bottom: 36px; }
+  .deck__swiper { padding: 8px 4px 22px; }
+  .deck-card__body { padding: 18px 18px 22px; }
+  .deck__controls {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "prev hint next"
+      "count count count";
+  }
+  .deck__controls .deck__btn:first-child { grid-area: prev; }
+  .deck__controls .deck__btn:last-child { grid-area: next; }
+  .deck__hint { grid-area: hint; font-size: 12.5px; }
+  .deck__count { grid-area: count; text-align: center; }
+}
+
+/* ---- Página /cartera (layout general) ---- */
 .works-page { padding: calc(var(--nav-h) + 84px) 0 140px; }
 
 .works-page__head { margin-bottom: 96px; }
@@ -970,8 +1177,9 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 900px) {
   .works-page { padding: calc(var(--nav-h) + 56px) 0 100px; }
-  .works-page__head { margin-bottom: 64px; }
-  .works-cta { margin-top: 90px; padding-top: 60px; }
+  .works-page__head { margin-bottom: 36px; text-align: center; }
+  .works-page__sub { margin-left: auto; margin-right: auto; }
+  .works-cta { margin-top: 56px; padding-top: 48px; }
 }
 
 /* ==========================================================================

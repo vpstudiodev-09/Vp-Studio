@@ -372,7 +372,7 @@ function heroParallax() {
 }
 
 /* --------------------------------------------------------------------------
-   Trabajos: parallax sutil de las capturas dentro del frame
+   Cartera: parallax sutil de las capturas dentro del frame
    La imagen tiene 12% de alto extra (top -6%), así que puede moverse
    ±6% sin mostrar bordes. Solo desktop y solo si hay movimiento permitido.
    -------------------------------------------------------------------------- */
@@ -401,7 +401,7 @@ function worksParallax() {
 }
 
 /* --------------------------------------------------------------------------
-   Trabajos (home): preview flotante que sigue al cursor sobre el índice
+   Cartera (home): preview flotante que sigue al cursor sobre el índice
    -------------------------------------------------------------------------- */
 function worksHoverPreview() {
   const rows = document.querySelectorAll(".wlist__row");
