@@ -74,6 +74,13 @@ function anchorLinks() {
 function intro() {
   const loader = document.getElementById("loader");
 
+  // Red de seguridad: si la animación nunca llega a completarse (pestaña
+  // sin foco, GSAP congelado), el loader se quita solo y no tapa la página.
+  setTimeout(() => {
+    const l = document.getElementById("loader");
+    if (l) l.remove();
+  }, 4000);
+
   // El loader completo solo en la primera visita de la sesión;
   // después, directo al contenido (estilo Apple: cero espera).
   let seen = false;
@@ -365,6 +372,73 @@ function heroParallax() {
 }
 
 /* --------------------------------------------------------------------------
+   Trabajos: parallax sutil de las capturas dentro del frame
+   La imagen tiene 12% de alto extra (top -6%), así que puede moverse
+   ±6% sin mostrar bordes. Solo desktop y solo si hay movimiento permitido.
+   -------------------------------------------------------------------------- */
+function worksParallax() {
+  if (reduceMotion) return;
+
+  mm.add("(min-width: 901px)", () => {
+    const triggers = gsap.utils.toArray("[data-work-img]").map((img) =>
+      gsap.fromTo(
+        img,
+        { yPercent: -4 },
+        {
+          yPercent: 4,
+          ease: "none",
+          scrollTrigger: {
+            trigger: img.closest(".work__frame"),
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.8,
+          },
+        }
+      )
+    );
+    return () => triggers.forEach((t) => t.scrollTrigger && t.scrollTrigger.kill());
+  });
+}
+
+/* --------------------------------------------------------------------------
+   Trabajos (home): preview flotante que sigue al cursor sobre el índice
+   -------------------------------------------------------------------------- */
+function worksHoverPreview() {
+  const rows = document.querySelectorAll(".wlist__row");
+  if (!rows.length) return;
+  if (reduceMotion || !window.matchMedia("(hover: hover)").matches) return;
+
+  const box = document.createElement("div");
+  box.className = "wpreview";
+  const img = document.createElement("img");
+  img.alt = "";
+  box.appendChild(img);
+  document.body.appendChild(box);
+
+  gsap.set(box, { scale: 0.9, transformOrigin: "left center" });
+  const setX = gsap.quickTo(box, "x", { duration: 0.5, ease: "power3.out" });
+  const setY = gsap.quickTo(box, "y", { duration: 0.5, ease: "power3.out" });
+
+  const move = (e) => {
+    // A la derecha del cursor, centrada en vertical; sin salirse del viewport
+    setX(Math.min(e.clientX + 28, window.innerWidth - 344));
+    setY(Math.min(Math.max(e.clientY - 100, 12), window.innerHeight - 212));
+  };
+
+  rows.forEach((row) => {
+    row.addEventListener("mouseenter", (e) => {
+      img.src = row.dataset.preview;
+      move(e);
+      gsap.to(box, { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" });
+    });
+    row.addEventListener("mouseleave", () => {
+      gsap.to(box, { opacity: 0, scale: 0.9, duration: 0.28, ease: "power2.in" });
+    });
+    row.addEventListener("mousemove", move);
+  });
+}
+
+/* --------------------------------------------------------------------------
    Menú mobile (hamburger)
    -------------------------------------------------------------------------- */
 function mobileMenu() {
@@ -595,13 +669,18 @@ if (hasGsap) {
     cardEffects();
     magnetic();
     heroParallax();
+    worksParallax();
+    worksHoverPreview();
     ScrollTrigger.refresh();
   };
 
   if (reduceMotion) {
     initScrollStuff();
   } else {
-    const startDeferred = () => gsap.delayedCall(0.2, initScrollStuff);
+    // setTimeout (y no gsap.delayedCall): el delayedCall depende del ticker
+    // rAF de GSAP, que se congela en pestañas en segundo plano y dejaría
+    // la página sin reveals ni pin si el usuario carga el sitio sin foco.
+    const startDeferred = () => setTimeout(initScrollStuff, 200);
     if (document.readyState === "complete") startDeferred();
     else window.addEventListener("load", startDeferred);
   }
